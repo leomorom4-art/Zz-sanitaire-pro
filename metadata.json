@@ -1,0 +1,8 @@
+{
+  "name": "Zz-Sanitaire - B2B Wholesale Sanitary Solutions",
+  "description": "A professional B2B wholesale platform for high-quality sanitary products featuring a dynamic product catalog, CMS, AI chatbot, and voice-enabled consultation agent.",
+  "requestFramePermissions": [
+    "microphone",
+    "geolocation"
+  ]
+}
