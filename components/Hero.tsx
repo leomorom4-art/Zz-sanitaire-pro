@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { ArrowRight, CheckCircle, Droplets } from 'lucide-react';
+import ProductImage from './ProductImage';
 
 interface HeroProps {
   onNavigate: (page: string) => void;
@@ -55,10 +56,11 @@ const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
 
           <div className="mt-16 lg:mt-0 relative">
             <div className="relative rounded-2xl overflow-hidden shadow-2xl animate-float">
-              <img 
-                src="https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&q=80&w=1000" 
-                alt="Sanitary Showroom" 
-                className="w-full h-auto object-cover"
+              <ProductImage 
+                prompt="Luxury wholesale sanitary showroom in Algeria, high-end washbasins and modern bathroom vanities display, architectural photography"
+                alt="Showroom Zz-Sanitaire"
+                className="w-full h-auto"
+                aspectRatio="16:9"
               />
               <div className="absolute inset-0 bg-gradient-to-tr from-blue-600/20 to-transparent"></div>
             </div>

@@ -31,3 +31,16 @@ export interface QuoteRequest {
   quantity: number;
   timestamp: string;
 }
+
+export interface Testimonial {
+  id: string;
+  author: string;
+  company: string;
+  content: string;
+  rating: number;
+}
+
+export interface FAQItem {
+  question: string;
+  answer: string;
+}

@@ -1,8 +1,6 @@
-
 import { GoogleGenAI, Modality } from "@google/genai";
 import { BUSINESS_INFO } from "../constants";
 
-// Correct GoogleGenAI initialization using named parameter and direct process.env.API_KEY
 const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
 
 export const getSystemInstruction = () => `
@@ -16,19 +14,36 @@ export const getSystemInstruction = () => `
   - If unsure, say "Let me check that for you."
   - Collect: Name, email/phone, and inquiry details for quote requests.
   - Never invent prices or specific legal policies.
+  - Use Google Maps to help users find our location or related points if they ask.
   - Encourage users to request a formal quote or visit the showroom.
 `;
 
 export const chatWithGemini = async (message: string) => {
+  let latLng = undefined;
+  
+  // Attempt to get user location for better grounding if permissions allow
+  try {
+    const pos = await new Promise<GeolocationPosition>((resolve, reject) => {
+      navigator.geolocation.getCurrentPosition(resolve, reject, { timeout: 5000 });
+    });
+    latLng = { latitude: pos.coords.latitude, longitude: pos.coords.longitude };
+  } catch (e) {
+    console.debug("Location access denied or unavailable.");
+  }
+
   const response = await ai.models.generateContent({
-    model: 'gemini-3-flash-preview',
+    model: 'gemini-2.5-flash-latest', // Changed to 2.5 series for Maps support
     contents: message,
     config: {
       systemInstruction: getSystemInstruction(),
       temperature: 0.7,
+      tools: [{ googleMaps: {} }, { googleSearch: {} }],
+      toolConfig: latLng ? {
+        retrievalConfig: { latLng }
+      } : undefined
     },
   });
-  // Use .text property directly as per guidelines (not a method)
+  
   return response.text;
 };
 
